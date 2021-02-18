@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 const { check, validationResult } = require('express-validator');
-const { signout, signup } = require("../controllers/auth"); //imported from controllers in that auth.js and from that we took "signout" 
+const { signout, signup, signin, isSignedIn } = require("../controllers/auth"); //imported from controllers in that auth.js and from that we took "signout" 
 
 //here "/signup" is route, [] in this express-validator operation, and "signup" is controller.
 router.post("/signup", [
@@ -11,6 +11,15 @@ router.post("/signup", [
  ], 
  signup
 );  
+
+router.post("/signin", [
+    check("email", "email is required").isEmail(),
+    check("password", "password field is required").isLength({ min: 1 }) 
+ ], 
+ signin
+);
+
 router.get("/signout", signout);
+
 
 module.exports = router;
